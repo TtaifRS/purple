@@ -1,4 +1,3 @@
-/* Team.module.css - Only updated the mobile section */
 .member-image {
 	width: 100%;
 	height: 100%;
@@ -26,9 +25,8 @@
 	border: 2px dashed var(--dull-color);
 	border-radius: 1.5rem;
 	will-change: transform;
-	transform: translateY(125%); /* GSAP start: off-screen bottom */
+	transform: translateY(125%);
 }
-/* Z-index layering (kept exactly as you added - perfect for depth) */
 .team-member:nth-child(1) {
 	z-index: 3;
 }
@@ -52,7 +50,7 @@
 	color: var(--highlight-color);
 	font-size: clamp(11rem, 22vw, 22rem);
 	will-change: transform;
-	transform: scale(0); /* GSAP start: hidden */
+	transform: scale(0);
 }
 .team-member-card {
 	position: absolute;
@@ -70,7 +68,6 @@
 	border-radius: 1.5rem;
 	will-change: transform;
 }
-/* Large image */
 .team-member-img {
 	width: 90%;
 	max-width: 500px;
@@ -121,7 +118,6 @@
 	overflow-wrap: break-word;
 	hyphens: auto;
 }
-/* GSAP starting positions for 4 cards on desktop - FIXED VERTICAL ALIGNMENT */
 .team-member:nth-child(1) .team-member-card {
 	transform: translate(400%, -50%) scale(0.7) rotate(25deg);
 }
@@ -134,8 +130,6 @@
 .team-member:nth-child(4) .team-member-card {
 	transform: translate(100%, -50%) scale(0.8) rotate(10deg);
 }
-
-/* Mobile responsiveness - UPDATED SECTION */
 @media (max-width: 1000px) {
 	.team {
 		height: auto;
@@ -144,54 +138,46 @@
 		flex-direction: column;
 		gap: 4rem;
 	}
-
 	.team-member {
 		max-width: 500px;
 		aspect-ratio: 1 / 1.5;
-		/* Reset to default for mobile */
 		transform: translateY(0);
 		border-color: transparent;
 	}
-
 	.member-initial {
-		/* Set initial mobile state */
 		transform: scale(1);
 		opacity: 0.8;
 	}
-
 	.team-member-card {
 		transform: translate(-50%, -50%);
 		width: calc(100% + 8px);
 		height: calc(100% + 8px);
-		padding: 1.8rem 1.8rem 2.2rem;
-		gap: 1.4rem;
+		padding: 2rem 1.5rem 2.5rem;
+		gap: 1.2rem;
 		border: 2px dashed var(--dull-color);
 	}
-
 	.team-member-img {
 		width: 92%;
 		max-width: none;
 		border-radius: 1.2rem;
 		margin-bottom: 0.6rem;
 	}
-
 	.team-member-info {
-		gap: 0.4rem;
+		gap: 0.6rem;
 	}
-
 	.member-name {
 		font-size: clamp(1.7rem, 5.5vw, 2.8rem);
 	}
-
 	.member-quote {
-		font-size: clamp(1.8rem, 4vw, 2rem);
+		font-size: clamp(0.95rem, 3.2vw, 1.1rem);
 		line-height: 1.5;
 		hyphens: none;
 		-webkit-hyphens: none;
 		-ms-hyphens: none;
+		max-width: 100%;
+		overflow-wrap: break-word;
+		word-wrap: break-word;
 	}
-
-	/* Reset desktop positions on mobile */
 	.team-member:nth-child(1) .team-member-card,
 	.team-member:nth-child(2) .team-member-card,
 	.team-member:nth-child(3) .team-member-card,
@@ -199,14 +185,12 @@
 		transform: translate(-50%, -50%);
 	}
 }
-
-/* Font families */
 .team-member-info,
 .member-role,
 .member-quote {
-	font-family: var(--font-body); /* Figtree */
+	font-family: var(--font-body);
 }
 .member-initial,
 .member-name {
-	font-family: var(--font-heading); /* Plus Jakarta Sans */
+	font-family: var(--font-heading);
 }
