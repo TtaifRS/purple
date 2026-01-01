@@ -6,6 +6,7 @@ import { vertexShader, fragmentShader } from '@/Shaders/heroShaders'
 import styles from './hero.module.css'
 import { useEffect, useRef, useState } from 'react'
 import HeroText from './HeroText'
+import { usePreloadCriticalAssets } from '@/hooks/usePreloadCriticalAssets'
 
 const config = {
 	parallaxStrength: 0.1,
@@ -14,8 +15,7 @@ const config = {
 	glassSmoothness: 0.0001,
 	stripesFrequency: 50,
 	edgePadding: 0.1,
-	// Animation config - adjusted for smoother motion
-	animationSpeed: 1.0, // Slower for smoother motion
+	animationSpeed: 1.0,
 }
 
 const Hero = () => {
@@ -24,13 +24,25 @@ const Hero = () => {
 	const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
 	const animationRef = useRef<number>(0)
 	const materialRef = useRef<THREE.ShaderMaterial | null>(null)
-	// Use performance.now() for smoother, continuous time
 	const startTimeRef = useRef<number>(0)
-
-	// Create a smooth, continuous progress value that never resets
 	const progressRef = useRef<number>(0)
 
 	const [isShaderReady, setIsShaderReady] = useState(false)
+
+	const { isLoaded } = usePreloadCriticalAssets()
+
+	const [isPreloaderAnimationComplete, setIsPreloaderAnimationComplete] =
+		useState(false)
+
+	useEffect(() => {
+		if (isLoaded) {
+			const timer = setTimeout(() => {
+				setIsPreloaderAnimationComplete(true)
+			}, 1500)
+
+			return () => clearTimeout(timer)
+		}
+	}, [isLoaded])
 
 	useEffect(() => {
 		if (!containerRef.current) return
@@ -43,7 +55,6 @@ const Hero = () => {
 			antialias: true,
 			alpha: true,
 		})
-
 		rendererRef.current = renderer
 
 		const { width, height } = container.getBoundingClientRect()
@@ -53,21 +64,18 @@ const Hero = () => {
 
 		const textureSize = { x: 1, y: 1 }
 
-		// Initialize start time and progress
 		startTimeRef.current = performance.now() / 1000
 		progressRef.current = 0
 
 		const material = new THREE.ShaderMaterial({
 			uniforms: {
 				uTexture: { value: null },
-				uResolution: {
-					value: new THREE.Vector2(width, height),
-				},
+				uResolution: { value: new THREE.Vector2(width, height) },
 				uTextureSize: {
 					value: new THREE.Vector2(textureSize.x, textureSize.y),
 				},
 				uTime: { value: 0.0 },
-				uProgress: { value: 0.0 }, // Add progress uniform
+				uProgress: { value: 0.0 },
 				uParallaxStrength: { value: config.parallaxStrength },
 				uDistortionMultiplier: { value: config.distortionMultiplier },
 				uGlassStrength: { value: config.glassStrength },
@@ -80,7 +88,6 @@ const Hero = () => {
 			fragmentShader,
 			transparent: true,
 		})
-
 		materialRef.current = material
 
 		const geometry = new THREE.PlaneGeometry(2, 2)
@@ -139,22 +146,16 @@ const Hero = () => {
 		function animate(timestamp: number) {
 			animationRef.current = requestAnimationFrame(animate)
 
-			// Calculate delta time for smooth animation
 			const currentTime = timestamp / 1000
 			if (lastTime === 0) lastTime = currentTime
-			const deltaTime = Math.min(currentTime - lastTime, 0.1) // Cap at 0.1s
+			const deltaTime = Math.min(currentTime - lastTime, 0.1)
 			lastTime = currentTime
 
-			// Calculate continuous progress that never resets
-			// This will keep increasing smoothly forever
 			progressRef.current += deltaTime * config.animationSpeed
 
-			// Calculate a smooth wave based on the continuous progress
-			// Using sin for smooth oscillation but without jumps
 			const waveValue = Math.sin(progressRef.current * 0.5) * 0.5 + 0.5
 
 			if (materialRef.current) {
-				// Pass both time and progress to shader
 				materialRef.current.uniforms.uTime.value =
 					currentTime - startTimeRef.current
 				materialRef.current.uniforms.uProgress.value = waveValue
@@ -163,7 +164,6 @@ const Hero = () => {
 			renderer.render(scene, camera)
 		}
 
-		// Start animation
 		animationRef.current = requestAnimationFrame(animate)
 
 		return () => {
@@ -173,9 +173,7 @@ const Hero = () => {
 			if (containerRef.current && rendererRef.current?.domElement) {
 				try {
 					containerRef.current.removeChild(rendererRef.current.domElement)
-				} catch (e) {
-					// Ignore
-				}
+				} catch (e) {}
 			}
 
 			renderer.dispose()
@@ -196,23 +194,14 @@ const Hero = () => {
 				}}
 				crossOrigin="anonymous"
 			/>
-			{/* <Image
-				className={styles.glassTexture}
-				src="/hero.png"
-				fill
-				alt="hero background"
-				priority
-				style={{
-					objectFit: 'cover',
-					zIndex: 0,
-				}}
-			/> */}
 
-			{/* Dark overlay */}
 			<div className={styles.overlay}></div>
 
 			<div className={styles.heroTextWrapper}>
-				<HeroText isShaderReady={isShaderReady} />
+				<HeroText
+					isShaderReady={isShaderReady}
+					isPreloaderAnimationComplete={isPreloaderAnimationComplete}
+				/>
 			</div>
 		</section>
 	)

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
+
 import styles from './HeroText.module.css'
 
 if (typeof window !== 'undefined') {
@@ -10,34 +11,34 @@ if (typeof window !== 'undefined') {
 }
 
 interface HeroTextProps {
-	isShaderReady?: boolean // Optional, defaults to false if not passed
+	isShaderReady?: boolean
+	isPreloaderAnimationComplete?: boolean
 }
 
-const HeroText = ({ isShaderReady = false }: HeroTextProps) => {
+const HeroText = ({
+	isShaderReady = false,
+	isPreloaderAnimationComplete = false,
+}: HeroTextProps) => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const wordRefs = useRef<(HTMLSpanElement | null)[]>([])
 	const splitTextInstances = useRef<SplitText[]>([])
 	const timelineRef = useRef<gsap.core.Timeline | null>(null)
 
 	useEffect(() => {
-		// Only run the animation if the shader is ready
-		if (!isShaderReady) {
+		if (!isShaderReady || !isPreloaderAnimationComplete) {
 			return
 		}
 
 		const words = wordRefs.current.filter(Boolean) as HTMLSpanElement[]
 		if (words.length === 0) return
 
-		// Make words visible for animation
 		words.forEach((word) => {
 			word.style.visibility = 'visible'
 		})
 
-		// Clean up any previous SplitText instances
 		splitTextInstances.current.forEach((instance) => instance.revert?.())
 		splitTextInstances.current = []
 
-		// Split each word into characters
 		words.forEach((word, index) => {
 			const split = new SplitText(word, {
 				type: 'chars',
@@ -54,7 +55,6 @@ const HeroText = ({ isShaderReady = false }: HeroTextProps) => {
 			})
 		})
 
-		// Create and store timeline
 		const tl = gsap.timeline()
 		timelineRef.current = tl
 
@@ -76,13 +76,12 @@ const HeroText = ({ isShaderReady = false }: HeroTextProps) => {
 			)
 		})
 
-		// Cleanup on unmount or when isShaderReady changes again
 		return () => {
 			tl.kill()
 			splitTextInstances.current.forEach((instance) => instance.revert?.())
 			splitTextInstances.current = []
 		}
-	}, [isShaderReady]) // ← Only re-run when shader becomes ready
+	}, [isShaderReady, isPreloaderAnimationComplete])
 
 	const setWordRef = (index: number) => (el: HTMLSpanElement | null) => {
 		wordRefs.current[index] = el
