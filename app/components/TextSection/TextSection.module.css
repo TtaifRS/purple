@@ -1,0 +1,45 @@
+/* TextSection.module.css */
+
+.container {
+	width: 100%;
+	max-width: 940px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.textSection {
+	min-height: 100vh;
+	background-color: var(--background-color);
+	color: var(--secondary-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 15vh;
+	padding-bottom: 15vh;
+}
+
+.wrapper p {
+	color: var(--text-color);
+	font-family: var(--font-body);
+	font-weight: var(--weight-light);
+	line-height: 1.15;
+	text-align: left;
+	font-size: clamp(1.5rem, 4vw, 3.5rem);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 768px) {
+	.textSection {
+		min-height: 100vh;
+		padding-top: 20vh;
+		padding-bottom: 20vh;
+		align-items: flex-start;
+	}
+
+	.wrapper p {
+		font-size: clamp(1.75rem, 7vw, 3.5rem);
+		line-height: 1.2;
+		padding-top: 10vh;
+	}
+}

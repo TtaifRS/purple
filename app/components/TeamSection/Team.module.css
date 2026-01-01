@@ -1,0 +1,212 @@
+/* Team.module.css - Only updated the mobile section */
+.member-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.team {
+	display: flex;
+	gap: 1.5rem;
+	position: relative;
+	width: 100%;
+	height: 105svh;
+	overflow: hidden;
+	background-color: var(--background-color);
+	align-items: center;
+	justify-content: center;
+	padding: 2rem 1.5rem;
+	box-sizing: border-box;
+}
+.team-member {
+	flex: 1;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	max-width: 550px;
+	border: 2px dashed var(--dull-color);
+	border-radius: 1.5rem;
+	will-change: transform;
+	transform: translateY(125%); /* GSAP start: off-screen bottom */
+}
+/* Z-index layering (kept exactly as you added - perfect for depth) */
+.team-member:nth-child(1) {
+	z-index: 3;
+}
+.team-member:nth-child(2) {
+	z-index: 2;
+}
+.team-member:nth-child(3) {
+	z-index: 1;
+}
+.team-member:nth-child(4) {
+	z-index: 0;
+}
+.team-member-name-initial {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.member-initial {
+	text-transform: uppercase;
+	color: var(--highlight-color);
+	font-size: clamp(11rem, 22vw, 22rem);
+	will-change: transform;
+	transform: scale(0); /* GSAP start: hidden */
+}
+.team-member-card {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: calc(100% + 4px);
+	height: calc(100% + 4px);
+	padding: 2rem 2rem 2.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
+	background-color: var(--secondary-color);
+	border-radius: 1.5rem;
+	will-change: transform;
+}
+/* Large image */
+.team-member-img {
+	width: 90%;
+	max-width: 500px;
+	aspect-ratio: 1 / 1;
+	border-radius: 1.5rem;
+	margin-bottom: 0.8rem;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+.team-member-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 0.5rem;
+	width: 100%;
+	flex: 1;
+}
+.member-role {
+	text-transform: uppercase;
+	font-size: clamp(0.85rem, 1.5vw, 1rem);
+	font-weight: 500;
+	line-height: 1.2;
+	color: var(--text-color);
+	margin: 0;
+}
+.member-name {
+	font-size: clamp(1.8rem, 3.8vw, 3rem);
+	font-weight: 700;
+	text-transform: uppercase;
+	color: var(--heading-color);
+	line-height: 1;
+	margin: 0;
+}
+.member-name span {
+	color: var(--accent-color);
+}
+.member-quote {
+	font-size: clamp(1rem, 2.3vw, 1.3rem);
+	font-style: italic;
+	line-height: 1.45;
+	color: var(--highlight-color);
+	text-align: center;
+	margin: 0;
+	opacity: 0.9;
+	font-weight: 400;
+	width: 100%;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+/* GSAP starting positions for 4 cards on desktop - FIXED VERTICAL ALIGNMENT */
+.team-member:nth-child(1) .team-member-card {
+	transform: translate(400%, -50%) scale(0.7) rotate(25deg);
+}
+.team-member:nth-child(2) .team-member-card {
+	transform: translate(300%, -50%) scale(0.7) rotate(20deg);
+}
+.team-member:nth-child(3) .team-member-card {
+	transform: translate(200%, -50%) scale(0.75) rotate(15deg);
+}
+.team-member:nth-child(4) .team-member-card {
+	transform: translate(100%, -50%) scale(0.8) rotate(10deg);
+}
+
+/* Mobile responsiveness - UPDATED SECTION */
+@media (max-width: 1000px) {
+	.team {
+		height: auto;
+		min-height: 400svh;
+		padding: 2rem 1rem;
+		flex-direction: column;
+		gap: 4rem;
+	}
+
+	.team-member {
+		max-width: 500px;
+		aspect-ratio: 1 / 1.5;
+		/* Reset to default for mobile */
+		transform: translateY(0);
+		border-color: transparent;
+	}
+
+	.member-initial {
+		/* Set initial mobile state */
+		transform: scale(1);
+		opacity: 0.8;
+	}
+
+	.team-member-card {
+		transform: translate(-50%, -50%);
+		width: calc(100% + 8px);
+		height: calc(100% + 8px);
+		padding: 1.8rem 1.8rem 2.2rem;
+		gap: 1.4rem;
+		border: 2px dashed var(--dull-color);
+	}
+
+	.team-member-img {
+		width: 92%;
+		max-width: none;
+		border-radius: 1.2rem;
+		margin-bottom: 0.6rem;
+	}
+
+	.team-member-info {
+		gap: 0.4rem;
+	}
+
+	.member-name {
+		font-size: clamp(1.7rem, 5.5vw, 2.8rem);
+	}
+
+	.member-quote {
+		font-size: clamp(1.8rem, 4vw, 2rem);
+		line-height: 1.5;
+		hyphens: none;
+		-webkit-hyphens: none;
+		-ms-hyphens: none;
+	}
+
+	/* Reset desktop positions on mobile */
+	.team-member:nth-child(1) .team-member-card,
+	.team-member:nth-child(2) .team-member-card,
+	.team-member:nth-child(3) .team-member-card,
+	.team-member:nth-child(4) .team-member-card {
+		transform: translate(-50%, -50%);
+	}
+}
+
+/* Font families */
+.team-member-info,
+.member-role,
+.member-quote {
+	font-family: var(--font-body); /* Figtree */
+}
+.member-initial,
+.member-name {
+	font-family: var(--font-heading); /* Plus Jakarta Sans */
+}

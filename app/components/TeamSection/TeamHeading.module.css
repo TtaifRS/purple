@@ -1,0 +1,63 @@
+.section {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--background-color);
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.heading {
+	position: relative;
+	text-align: center;
+	font-family: var(--font-heading);
+	font-weight: 400;
+	font-size: clamp(4rem, 10vw, 8rem);
+	text-transform: uppercase;
+	line-height: 1.1;
+	color: var(--heading-color);
+	font-variant-ligatures: none;
+	margin: 0;
+	padding: 0 2rem;
+}
+
+.section,
+.heading {
+	user-select: none; /* Disables text selection */
+	-webkit-user-select: none; /* Safari/older WebKit */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Old IE/Edge */
+}
+
+.heading {
+	cursor: default; /* Forces arrow cursor instead of text I-beam */
+}
+
+/* SplitText classes */
+.word {
+	display: inline-block;
+	overflow: hidden;
+	margin-right: 0.2em;
+}
+
+.char {
+	display: inline-block;
+	transform: translateY(100px);
+	opacity: 0;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+	.section {
+		height: 80vh;
+	}
+
+	.heading {
+		font-size: clamp(4rem, 8vw, 9rem);
+		padding: 0 1.5rem;
+		text-align: center;
+	}
+}

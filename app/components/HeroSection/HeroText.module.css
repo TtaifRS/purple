@@ -1,0 +1,50 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	min-height: 100vh;
+	width: 100%;
+	padding: 2rem;
+	background-color: transparent;
+	overflow: hidden;
+}
+
+.heroHeading {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+	max-width: 1400px;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-weight: 100;
+}
+
+.word {
+	display: block;
+	font-size: clamp(4rem, 12vw, 10rem);
+	line-height: 1;
+	letter-spacing: -0.04em;
+	color: var(--text-color);
+	text-transform: uppercase;
+	margin-left: -0.05em;
+	visibility: hidden; /* Hide initially */
+}
+
+/* Character styles */
+.char-0,
+.char-1,
+.char-2 {
+	display: inline-block;
+	position: relative;
+}
+
+/* Smoother animation performance */
+.container * {
+	backface-visibility: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

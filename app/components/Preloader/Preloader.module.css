@@ -1,0 +1,42 @@
+/* components/Preloader.module.css */
+.overlay {
+	position: fixed;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--background-color);
+	z-index: 9999;
+	pointer-events: none;
+	user-select: none;
+	overflow: hidden;
+	transform: translateZ(0);
+	will-change: transform;
+}
+
+.counter {
+	font-family: var(--font-heading);
+	font-weight: 300;
+	font-size: 52vw;
+	line-height: 0.82;
+	letter-spacing: -0.07em;
+	color: var(--text-color);
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	transform: scale(0.92);
+	will-change: transform, opacity;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.counter {
+		font-size: 50vw;
+	}
+}
+
+@media (max-width: 480px) {
+	.counter {
+		font-size: 44vw;
+	}
+}
